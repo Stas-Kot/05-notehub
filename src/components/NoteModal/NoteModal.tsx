@@ -5,6 +5,7 @@ import NoteForm from "../NoteForm/NoteForm";
 
 interface NoteModalProps {
   onClose: () => void;
+  isLoading: boolean;
 }
 
 export default function NoteModal({ onClose }: NoteModalProps) {
@@ -37,7 +38,7 @@ export default function NoteModal({ onClose }: NoteModalProps) {
       role="dialog"
       aria-modal="true"
     >
-      <div className={css.modal}>{<NoteForm handleClose={onClose} />}</div>
+      <div className={css.modal}>{<NoteForm onClose={onClose} />}</div>
     </div>,
     document.body
   );

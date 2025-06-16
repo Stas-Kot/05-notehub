@@ -1,12 +1,11 @@
 import axios from "axios";
-import type { Note } from "../types/note";
-import { newNote } from "../components/NoteForm/NoteForm";
+import type { NewNote, Note } from "../types/note";
 
 interface GetNotesRes {
   notes: Note[];
   totalPages: number;
 }
-axios.defaults.baseURL = "https://notehub-public.goit.study/api";
+axios.defaults.baseURL = "https://notehub-public.goit.study/api/notes";
 const myKey = import.meta.env.VITE_NOTEHUB_TOKEN;
 const PER_PAGE = 12;
 
@@ -15,7 +14,7 @@ const fetchNotes = async (
   page: number
 ): Promise<GetNotesRes> => {
   try {
-    const response = await axios.get<GetNotesRes>("/notes", {
+    const response = await axios.get<GetNotesRes>("/", {
       params: {
         page,
         perPage: PER_PAGE,
@@ -32,9 +31,9 @@ const fetchNotes = async (
   }
 };
 
-const deleteNote = async (noteId: number) => {
+const deleteNote = async (noteId: number): Promise<Note> => {
   try {
-    const response = await axios.delete(`/notes/${noteId}`, {
+    const response = await axios.delete<Note>(`/${noteId}`, {
       headers: {
         Authorization: `Bearer ${myKey}`,
       },
@@ -46,9 +45,9 @@ const deleteNote = async (noteId: number) => {
   }
 };
 
-const createNote = async (newNote: newNote) => {
+const createNote = async (newNote: NewNote): Promise<Note> => {
   try {
-    const response = await axios.post<Note>("/notes", newNote, {
+    const response = await axios.post<Note>("/", newNote, {
       headers: {
         Authorization: `Bearer ${myKey}`,
       },
